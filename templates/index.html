@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рассчет координат плитки Яндекс.Карт</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Рассчет координат плитки Яндекс.Карт</h2>
+        <form method="post">
+            <label for="tile">Номер плитки (X, Y):</label>
+            <input type="text" id="tile" name="tile" placeholder="Пример: 316898, 164368">
+            <label for="zoom">Зум (Z):</label>
+            <input type="text" id="zoom" name="zoom" placeholder="Пример: 19">
+            <button type="submit">Рассчитать</button>
+        </form>
+
+        {% if lat is defined and lon is defined %}
+            <p>Координаты верхней левой точки плитки ({{ tile }}): Широта: {{ lat }}, Долгота: {{ lon }}</p>
+
+            <div id="map" style="width: 100%; height: 400px;">
+                <iframe
+                    src="https://core-carparks-renderer-lots.maps.yandex.net/maps-rdr-carparks/tiles?l=carparks&x={{ tile_x }}&y={{ tile_y }}&z={{ zoom }}&scale=1&lang=ru_RU"
+                    width="100%"
+                    height="400"
+                    frameborder="0"
+                ></iframe>
+                <p>"https://core-carparks-renderer-lots.maps.yandex.net/maps-rdr-carparks/tiles?l=carparks&x={{ tile_x }}&y={{ tile_y }}&z={{ zoom }}&scale=1&lang=ru_RU"</p>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
